@@ -3,755 +3,286 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="theme-color" content="#FFF4F8">
-<meta name="description" content="Лёгкая корзинка — уютный планировщик меню и покупок">
-<title>Лёгкая корзинка ♡</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#fff1f5">
+<title>Лёгкая корзинка</title>
 <style>
-:root {
-  --bg:#FFF4F8;
-  --paper:#FFFFFF;
-  --accent:#E88EAE;
-  --accent-dark:#C65F89;
-  --dark:#553D49;
-  --muted:#9B8290;
-  --soft:#FCE4ED;
-  --soft2:#F8EDF4;
-  --line:#F2D5E1;
-  --shadow:#D8A5BC20;
-}
-* {box-sizing:border-box}
-body {
-  margin:0;
-  background:var(--bg);
-  color:var(--dark);
-  font-family:system-ui,-apple-system,sans-serif;
-  padding-bottom:88px;
-  transition:background .2s,color .2s;
-}
-button,input {font:inherit}
-button {cursor:pointer;color:inherit}
-header {
-  padding:25px 19px 22px;
-  background:linear-gradient(140deg,var(--soft),var(--bg),#fff);
-  border-radius:0 0 30px 30px;
-  border-bottom:2px dashed var(--accent);
-}
-.eyebrow {
-  font-size:11px;
-  letter-spacing:1.5px;
-  color:var(--accent-dark);
-}
-h1 {font-size:28px;margin:8px 0}
-header p {margin:5px 0;color:var(--muted);font-size:14px}
-.container {padding:17px;max-width:650px;margin:auto}
-.paper {
-  background:var(--paper);
-  border:1px solid var(--line);
-  border-radius:21px;
-  padding:16px;
-  margin-bottom:15px;
-  box-shadow:0 5px 15px var(--shadow);
-  position:relative;
-}
-h2 {font-size:19px;margin:0 0 13px}
-h3 {font-size:16px;margin:0 0 8px}
-p {line-height:1.5}
-.muted {color:var(--muted);font-size:13px}
-.row {display:flex;align-items:center;gap:10px}
-.between {justify-content:space-between}
-.grow {flex:1;min-width:0}
-.badge {
-  background:var(--soft);
-  padding:6px 10px;
-  border-radius:20px;
-  font-size:12px;
-  white-space:nowrap;
-}
-.quote {
-  background:var(--soft);
-  border-radius:18px;
-  padding:16px;
-  font-size:15px;
-  line-height:1.6;
-  margin-bottom:15px;
-  border-left:4px solid var(--accent);
-}
-.quote small {display:block;color:var(--muted);margin-top:8px}
-.stats {display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.stat {background:var(--soft);border-radius:17px;padding:13px}
-.stat:nth-child(2) {background:var(--soft2)}
-.stat strong {display:block;font-size:21px;margin-top:5px}
-.field {
-  width:100%;
-  min-width:0;
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:11px;
-  background:var(--paper);
-  color:var(--dark);
-  outline-color:var(--accent);
-}
-.btn {
-  border:0;
-  background:var(--accent);
-  color:#fff;
-  border-radius:13px;
-  padding:11px 14px;
-  font-weight:650;
-}
-.btn:active {transform:scale(.98)}
-.btn.light {background:var(--soft);color:var(--accent-dark)}
-.btn.small {padding:7px 10px;font-size:13px}
-.budgetline {display:grid;grid-template-columns:1fr 112px;gap:9px}
-.days {display:flex;gap:7px;overflow-x:auto;padding:3px 0 12px}
-.day {
-  min-width:62px;
-  border:1px solid var(--line);
-  background:var(--paper);
-  border-radius:13px;
-  padding:10px 7px;
-  font-size:12px;
-}
-.day.active {background:var(--accent);color:white;border-color:var(--accent)}
-.meal {
-  background:var(--bg);
-  border:1px dashed var(--line);
-  border-radius:16px;
-  padding:12px;
-  margin:10px 0;
-}
-.meal .emoji {font-size:25px}
-.meal p {font-size:13px;color:var(--muted);margin:6px 0}
-.meal .ingredients {font-size:12px;color:var(--muted);line-height:1.5}
-.section {display:none}
-.section.active {display:block}
-.bottomnav {
-  position:fixed;
-  bottom:0;left:0;right:0;
-  background:var(--paper);
-  border-top:1px solid var(--line);
-  display:flex;
-  justify-content:space-around;
-  padding:9px 3px calc(9px + env(safe-area-inset-bottom));
-  z-index:5;
-}
-.navbtn {
-  background:none;
-  border:0;
-  font-size:11px;
-  color:var(--muted);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:4px;
-  min-width:0;
-  flex:1;
-}
-.navbtn span {font-size:21px}
-.navbtn.active {color:var(--accent-dark);font-weight:700}
-.item {
-  display:flex;
-  gap:9px;
-  align-items:center;
-  padding:11px 0;
-  border-bottom:1px dashed var(--line);
-}
-.item:last-child {border-bottom:0}
-.item input[type=checkbox] {
-  accent-color:var(--accent-dark);
-  width:19px;height:19px;
-  flex-shrink:0;
-}
-.item label {flex:1;font-size:14px;line-height:1.4;overflow-wrap:anywhere}
-.item.done label {text-decoration:line-through;color:var(--muted)}
-.item .price {width:85px;padding:7px}
-.empty {text-align:center;color:var(--muted);padding:23px 8px;line-height:1.8}
-footer {text-align:center;font-size:12px;color:var(--muted);padding:10px}
-.theme-buttons {display:flex;gap:9px;flex-wrap:wrap}
-.theme-choice {
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:10px;
-  background:var(--paper);
-  flex:1;
-  min-width:85px;
-}
-.theme-choice.selected {border:2px solid var(--accent-dark)}
-.theme-dot {
-  display:block;width:24px;height:24px;
-  border-radius:50%;margin:0 auto 6px;
-}
+:root{--bg:#fff7fa;--card:#fff;--pink:#ed9ab7;--dark:#a94e76;--text:#553b48;--soft:#ffe7ef;--border:#f3d5e0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px Arial,sans-serif}
+body.lilac{--bg:#faf6ff;--pink:#c5a5e8;--dark:#7952a0;--soft:#eee3ff;--border:#e2d2f4}
+body.peach{--bg:#fff8f1;--pink:#f4b58e;--dark:#b66b43;--soft:#ffeadc;--border:#f4d9c6}
+header{padding:23px 18px 17px;background:linear-gradient(135deg,var(--soft),var(--bg));border-radius:0 0 26px 26px}
+h1{font-size:25px;margin:0 0 6px}
+header p{margin:0;opacity:.8}
+main{padding:15px;max-width:700px;margin:auto;padding-bottom:95px}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:9px 2px calc(9px + env(safe-area-inset-bottom));border-top:1px solid var(--border);z-index:5}
+nav button{background:none;color:var(--text);padding:7px 2px;font-size:11px;flex:1;border:0}
+nav button.active{color:var(--dark);font-weight:bold}
+nav span{display:block;font-size:20px;margin-bottom:3px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:19px;padding:15px;margin:12px 0;box-shadow:0 3px 12px #9b57710a}
+h2{font-size:19px;margin:3px 0 12px}
+h3{font-size:16px;margin:5px 0 8px}
+p{line-height:1.45}
+button,.btn{border:0;border-radius:12px;padding:11px 13px;background:var(--pink);color:#fff;font-weight:bold;cursor:pointer;font-size:14px}
+button.secondary{background:var(--soft);color:var(--dark)}
+button.danger{background:#f8e2e7;color:#9e3e5b}
+button:disabled{opacity:.5}
+input,select,textarea{width:100%;border:1px solid var(--border);border-radius:11px;padding:12px;background:#fff;color:var(--text);font:inherit;margin:5px 0 10px}
+label{font-size:13px;font-weight:bold}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.row>*{flex:1}
+.muted{opacity:.7;font-size:13px}
+.big{font-size:25px;font-weight:bold;color:var(--dark)}
+.pill{display:inline-block;background:var(--soft);color:var(--dark);border-radius:20px;padding:5px 9px;font-size:12px;margin:3px}
+.meal{padding:11px 0;border-bottom:1px dashed var(--border)}
+.meal:last-child{border-bottom:0}
+.meal-title{font-weight:bold}
+.item{display:flex;align-items:center;gap:9px;padding:10px 0;border-bottom:1px solid var(--border)}
+.item input[type=checkbox]{width:20px;height:20px;margin:0;accent-color:var(--pink)}
+.item .grow{flex:1}
+.item small{display:block;opacity:.7;margin-top:4px}
+.item button{padding:7px 10px}
+.checkdone{text-decoration:line-through;opacity:.55}
+.empty{text-align:center;padding:25px 10px;opacity:.7}
+.hidden{display:none!important}
+.daytitle{font-weight:bold;color:var(--dark);margin-top:14px}
+footer{text-align:center;font-size:12px;opacity:.6;padding:20px}
 </style>
 </head>
-
 <body>
 <header>
-  <div class="eyebrow">♡ ТВОЙ УЮТНЫЙ КУХОННЫЙ БЛОКНОТ ♡</div>
-  <h1>🌸 Лёгкая корзинка</h1>
-  <p>Меньше трат — больше вкусных моментов</p>
-  <div class="row" style="margin-top:16px">
-    <span style="font-size:27px">🧺</span>
-    <div class="grow">
-      <strong>Меню для двоих</strong>
-      <div class="muted">Планируем неделю с заботой</div>
-    </div>
-    <span class="badge">♡ уют дома</span>
-  </div>
+  <h1>🧺 Лёгкая корзинка</h1>
+  <p>Планируем вкусно, покупаем разумно ♡</p>
 </header>
-
-<main class="container">
-
-<section id="home" class="section active">
-  <div class="quote">
-    <span id="quoteText">Маленькие шаги тоже ведут к большим переменам.</span>
-    <small>🎀 Твоя записка на сегодня</small>
+<main>
+<section id="home" class="page">
+ <div class="card">
+  <span class="pill">♡ Твой помощник</span>
+  <h2>Привет, хозяюшка!</h2>
+  <p>Немного планирования — и покупки становятся проще.</p>
+  <div class="row">
+   <div><div class="muted">Бюджет на неделю</div><div class="big" id="homeBudget">0 ₽</div></div>
+   <div><div class="muted">В списке покупок</div><div class="big" id="homeItems">0</div></div>
   </div>
-
-  <div class="stats">
-    <div class="stat">
-      <span class="muted">🛒 Бюджет на неделю</span>
-      <strong id="homeBudget">3 500 ₽</strong>
-    </div>
-    <div class="stat">
-      <span class="muted">🥕 В корзине</span>
-      <strong id="homeCount">0 продуктов</strong>
-    </div>
-  </div>
-
-  <div class="paper" style="margin-top:15px">
-    <h2>💗 Наш бюджет</h2>
-    <p class="muted">Сколько вы хотите потратить на продукты за неделю?</p>
-    <div class="budgetline">
-      <input class="field" id="budgetInput" type="number"
-        min="0" step="100" value="3500" aria-label="Бюджет в рублях">
-      <button class="btn" onclick="saveBudget()">Сохранить</button>
-    </div>
-    <p class="muted" id="budgetMessage">На двоих · 7 дней</p>
-  </div>
-
-  <div class="paper">
-    <div class="row between">
-      <h2>🍓 Меню недели</h2>
-      <span class="badge">7 дней</span>
-    </div>
-    <div class="days" id="days"></div>
-    <div id="dayMenu"></div>
-    <button class="btn light" style="width:100%;margin-top:8px"
-      onclick="showTab('shopping')">К списку покупок →</button>
-  </div>
+  <button onclick="showPage('menu')">Составить меню ✿</button>
+ </div>
+ <div class="card">
+  <h2>🌷 Быстрый старт</h2>
+  <button class="secondary" onclick="showPage('shopping')">🛒 Мои покупки</button>
+  <button class="secondary" onclick="showPage('pantry')">🥫 Моя кладовая</button>
+  <button class="secondary" onclick="showPage('settings')">💗 Настройки и бюджет</button>
+ </div>
+ <div class="card">
+  <h2>Маленькое напоминание</h2>
+  <p id="quote">Планируй не идеально, а так, как удобно тебе ♡</p>
+  <button class="secondary" onclick="newQuote()">Другая мысль ✨</button>
+ </div>
 </section>
 
-<section id="shopping" class="section">
-  <div class="paper">
-    <h2>🛒 Моя корзинка</h2>
-    <p class="muted">Добавляй продукты, указывай цены и отмечай покупки.</p>
-    <div class="row">
-      <input class="field grow" id="newProduct" placeholder="Название продукта">
-      <button class="btn" onclick="addProduct()">Добавить</button>
-    </div>
-    <div style="margin-top:10px">
-      <input class="field" id="newPrice" type="number" min="0"
-        placeholder="Цена в рублях (необязательно)">
-    </div>
-    <p class="muted" id="shoppingSummary"></p>
-    <div id="shoppingList"></div>
-    <button class="btn light" style="margin-top:14px;width:100%"
-      onclick="clearChecked()">Убрать купленные продукты</button>
-  </div>
-  <div class="paper">
-    <h3>🌷 Маленький совет</h3>
-    <p class="muted">Перед походом в магазин проверь холодильник. Возможно, часть покупок уже есть дома!</p>
-  </div>
+<section id="menu" class="page hidden">
+ <div class="card">
+  <h2>🍓 Меню на неделю</h2>
+  <p class="muted">Можно составить меню автоматически или выбрать блюда самостоятельно.</p>
+  <label>Бюджет на неделю, ₽</label>
+  <input id="budget" type="number" min="0" placeholder="Например, 3500">
+  <label>Сколько человек?</label>
+  <select id="people"><option value="1">1 человек</option><option value="2" selected>2 человека</option><option value="3">3 человека</option><option value="4">4 человека</option><option value="5">5 человек</option><option value="6">6 человек</option></select>
+  <label>Предпочтения</label>
+  <select id="preference">
+   <option value="all">Любые блюда</option>
+   <option value="simple">Простые и быстрые</option>
+   <option value="vegetarian">Без мяса и рыбы</option>
+   <option value="chicken">С курицей</option>
+   <option value="budget">Самые экономные</option>
+  </select>
+  <button onclick="autoMenu()">✨ Подобрать меню</button>
+  <button class="secondary" onclick="clearMenu()">Очистить меню</button>
+ </div>
+ <div class="card">
+  <h2>🥗 Выбрать блюда самой</h2>
+  <label>Категория</label>
+  <select id="category" onchange="renderRecipes()">
+   <option value="all">Все блюда</option><option value="breakfast">Завтраки</option><option value="lunch">Обеды</option><option value="dinner">Ужины</option>
+  </select>
+  <label>Поиск блюда</label>
+  <input id="recipeSearch" placeholder="Например, суп" oninput="renderRecipes()">
+  <div id="recipes"></div>
+ </div>
+ <div class="card">
+  <h2>📅 Твоё меню</h2>
+  <div id="weeklyMenu"></div>
+  <div class="row"><button onclick="makeShopping()">🛒 Создать список покупок</button><button class="secondary" onclick="clearMenu()">Сбросить</button></div>
+  <p class="muted" id="menuTotal"></p>
+ </div>
 </section>
 
-<section id="pantry" class="section">
-  <div class="paper">
-    <h2>🏡 Моя кладовая</h2>
-    <p class="muted">Записывай продукты, которые уже есть дома.</p>
-    <div class="row">
-      <input class="field grow" id="pantryInput" placeholder="Например, рис">
-      <button class="btn" onclick="addPantry()">Добавить</button>
-    </div>
-    <div id="pantryList"></div>
-  </div>
+<section id="shopping" class="page hidden">
+ <div class="card">
+  <h2>🛒 Список покупок</h2>
+  <p class="muted">Отмечай продукты по мере покупки. Цены можно менять.</p>
+  <div class="row"><div><div class="muted">Сумма списка</div><div class="big" id="shoppingTotal">0 ₽</div></div><div><div class="muted">Осталось купить</div><div class="big" id="remaining">0</div></div></div>
+  <label>Название продукта</label><input id="newProduct" placeholder="Например, молоко">
+  <div class="row"><div><label>Количество</label><input id="newQty" placeholder="1 упаковка"></div><div><label>Цена, ₽</label><input id="newPrice" type="number" min="0" placeholder="100"></div></div>
+  <button onclick="addProduct()">＋ Добавить продукт</button>
+  <button class="secondary" onclick="makeShopping()">Обновить из меню</button>
+  <div id="shoppingList"></div>
+  <button class="danger" onclick="clearShopping()">Очистить список</button>
+ </div>
 </section>
 
-<section id="settings" class="section">
-  <div class="paper">
-    <h2>🎀 Мой блокнот</h2>
-    <p class="muted">Выбери оформление, которое тебе нравится.</p>
-    <h3>🌸 Цветовая тема</h3>
-    <div class="theme-buttons" id="themeButtons">
-      <button class="theme-choice" data-theme="pink" onclick="setTheme('pink')">
-        <span class="theme-dot" style="background:#F4B8CF"></span>
-        Розовая
-      </button>
-      <button class="theme-choice" data-theme="lilac" onclick="setTheme('lilac')">
-        <span class="theme-dot" style="background:#C7B5E8"></span>
-        Сиреневая
-      </button>
-      <button class="theme-choice" data-theme="peach" onclick="setTheme('peach')">
-        <span class="theme-dot" style="background:#F5B69A"></span>
-        Персиковая
-      </button>
-    </div>
-  </div>
-
-  <div class="paper">
-    <h3>🧹 Управление данными</h3>
-    <p class="muted">Можно очистить список покупок и кладовую. Бюджет и меню останутся.</p>
-    <button class="btn light" onclick="resetLists()">Очистить списки</button>
-  </div>
-
-  <div class="paper">
-    <h3>♡ О приложении</h3>
-    <p class="muted">«Лёгкая корзинка» — бесплатный помощник по планированию меню и покупок.</p>
-    <p class="muted">Версия 0.2 · Розовый блокнот</p>
-    <p class="muted">Данные хранятся в браузере этого устройства. Для надёжного сохранения не очищай данные сайта.</p>
-  </div>
+<section id="pantry" class="page hidden">
+ <div class="card">
+  <h2>🥫 Моя кладовая</h2>
+  <p class="muted">Записывай продукты, которые уже есть дома.</p>
+  <label>Продукт</label><input id="pantryName" placeholder="Например, рис">
+  <label>Количество</label><input id="pantryQty" placeholder="1 пачка">
+  <button onclick="addPantry()">＋ Добавить в кладовую</button>
+  <div id="pantryList"></div>
+ </div>
 </section>
 
-<footer>Создано с любовью и щепоткой корицы ♡</footer>
+<section id="settings" class="page hidden">
+ <div class="card">
+  <h2>💗 Настройки</h2>
+  <label>Тема оформления</label>
+  <select id="theme" onchange="setTheme(this.value)"><option value="pink">Нежно-розовая</option><option value="lilac">Лавандовая</option><option value="peach">Персиковая</option></select>
+  <label>Бюджет на неделю, ₽</label><input id="settingsBudget" type="number" min="0" placeholder="3500" onchange="saveBudget(this.value)">
+  <p class="muted">Все данные хранятся в памяти браузера на этом устройстве. Очистка данных сайта может удалить сохранённые записи.</p>
+  <button class="secondary" onclick="exportData()">Сохранить резервную копию</button>
+  <label style="display:block;margin-top:16px">Восстановить копию</label>
+  <input id="importFile" type="file" accept=".json,application/json">
+  <button class="secondary" onclick="importData()">Восстановить данные</button>
+ </div>
+</section>
+<footer>С любовью к уюту и разумным покупкам ♡</footer>
 </main>
 
-<nav class="bottomnav">
-  <button class="navbtn active" data-tab="home" onclick="showTab('home')">
-    <span>🏠</span>Главная
-  </button>
-  <button class="navbtn" data-tab="shopping" onclick="showTab('shopping')">
-    <span>🛒</span>Покупки
-  </button>
-  <button class="navbtn" data-tab="pantry" onclick="showTab('pantry')">
-    <span>🫙</span>Кладовая
-  </button>
-  <button class="navbtn" data-tab="settings" onclick="showTab('settings')">
-    <span>🎀</span>Настройки
-  </button>
+<nav>
+ <button class="active" data-page="home" onclick="showPage('home')"><span>🏡</span>Главная</button>
+ <button data-page="menu" onclick="showPage('menu')"><span>🍓</span>Меню</button>
+ <button data-page="shopping" onclick="showPage('shopping')"><span>🛒</span>Покупки</button>
+ <button data-page="pantry" onclick="showPage('pantry')"><span>🥫</span>Кладовая</button>
+ <button data-page="settings" onclick="showPage('settings')"><span>⚙️</span>Настройки</button>
 </nav>
 
 <script>
-'use strict';
-
-const KEY = 'legkaya-korzinka-v2';
-
-const quotes = [
-  'Маленькие шаги тоже ведут к большим переменам.',
-  'Ты заслуживаешь заботы, даже в самые обычные дни.',
-  'Уют начинается с маленьких приятных мелочей.',
-  'Не нужно быть идеальной, чтобы хорошо о себе заботиться.',
-  'Сегодня — хороший день для маленького доброго дела.',
-  'Каждая сэкономленная копейка помогает твоей мечте.',
-  'Можно двигаться медленно. Главное — в своём ритме.',
-  'Домашний уют складывается из простых вещей.',
-  'Позаботься о себе так же нежно, как о любимом человеке.',
-  'Даже простой ужин может стать маленьким праздником.',
-  'Твоя жизнь не обязана быть идеальной, чтобы быть прекрасной.',
-  'Небольшой план сегодня облегчит завтрашний день.',
-  'Разреши себе отдыхать и начинать заново.',
-  'Пусть сегодня будет немного больше тепла и спокойствия.',
-  'Ты создаёшь свой уют по кусочкам — и это прекрасно.'
+const recipes=[
+{id:1,name:"Овсяная каша",cat:"breakfast",cost:35,kind:"vegetarian",ingredients:[["овсяные хлопья",60],["молоко",150],["сахар",5]],steps:"Свари хлопья в молоке или воде до мягкости."},
+{id:2,name:"Яичница с хлебом",cat:"breakfast",cost:55,kind:"simple",ingredients:[["яйца",2],["хлеб",2]],steps:"Приготовь яйца на сковороде и подай с хлебом."},
+{id:3,name:"Блины",cat:"breakfast",cost:65,kind:"vegetarian",ingredients:[["мука",100],["молоко",150],["яйца",1]],steps:"Смешай ингредиенты и испеки тонкие блины."},
+{id:4,name:"Творог с бананом",cat:"breakfast",cost:70,kind:"vegetarian",ingredients:[["творог",150],["банан",1]],steps:"Нарежь банан и смешай с творогом."},
+{id:5,name:"Рис с курицей",cat:"lunch",cost:110,kind:"chicken",ingredients:[["рис",100],["курица",150],["морковь",1]],steps:"Обжарь курицу с морковью, добавь рис и воду, туши до готовности."},
+{id:6,name:"Суп с картофелем",cat:"lunch",cost:65,kind:"vegetarian",ingredients:[["картофель",2],["морковь",1],["лук",1]],steps:"Нарежь овощи и вари до мягкости."},
+{id:7,name:"Макароны с сыром",cat:"lunch",cost:75,kind:"vegetarian",ingredients:[["макароны",100],["сыр",30]],steps:"Отвари макароны и добавь тёртый сыр."},
+{id:8,name:"Гречка с курицей",cat:"dinner",cost:105,kind:"chicken",ingredients:[["гречка",100],["курица",150],["лук",1]],steps:"Отвари гречку. Курица с луком готовится отдельно на сковороде."},
+{id:9,name:"Картофель с овощами",cat:"dinner",cost:60,kind:"vegetarian",ingredients:[["картофель",3],["морковь",1],["лук",1]],steps:"Нарежь овощи, запеки или потуши до готовности."},
+{id:10,name:"Овощной салат",cat:"dinner",cost:55,kind:"vegetarian",ingredients:[["огурец",1],["помидор",1]],steps:"Нарежь овощи и заправь по вкусу."},
+{id:11,name:"Куриный суп",cat:"lunch",cost:95,kind:"chicken",ingredients:[["курица",100],["картофель",2],["морковь",1],["вермишель",30]],steps:"Отвари курицу, добавь овощи и вермишель."},
+{id:12,name:"Сэндвич с сыром",cat:"breakfast",cost:45,kind:"vegetarian",ingredients:[["хлеб",2],["сыр",30]],steps:"Положи сыр между ломтиками хлеба."},
+{id:13,name:"Тушёная капуста",cat:"dinner",cost:55,kind:"vegetarian",ingredients:[["капуста",200],["морковь",1],["лук",1]],steps:"Нашинкуй овощи и туши до мягкости."},
+{id:14,name:"Курица с картофелем",cat:"dinner",cost:120,kind:"chicken",ingredients:[["курица",150],["картофель",3]],steps:"Приправь и запеки курицу с картофелем."},
+{id:15,name:"Паста с томатами",cat:"lunch",cost:75,kind:"vegetarian",ingredients:[["макароны",100],["помидор",2]],steps:"Отвари макароны и прогрей с нарезанными томатами."}
 ];
-
-const meals = [
- {day:'Пн',name:'Понедельник',food:[
-  ['🥣','Завтрак','Овсяная каша с бананом','Овсянка, молоко, бананы'],
-  ['🍗','Обед','Курица с рисом','Курица, рис, морковь, лук'],
-  ['🥪','Ужин','Горячие бутерброды','Хлеб, сыр, помидоры']
- ]},
- {day:'Вт',name:'Вторник',food:[
-  ['🍳','Завтрак','Яичница с тостами','Яйца, хлеб'],
-  ['🍲','Обед','Суп с картофелем','Картофель, морковь, лук, курица'],
-  ['🥔','Ужин','Запечённый картофель','Картофель, сыр, сметана']
- ]},
- {day:'Ср',name:'Среда',food:[
-  ['🥞','Завтрак','Оладьи','Мука, молоко, яйцо'],
-  ['🍝','Обед','Макароны с курицей','Макароны, курица, лук'],
-  ['🥗','Ужин','Овощной салат с яйцом','Яйца, огурцы, помидоры']
- ]},
- {day:'Чт',name:'Четверг',food:[
-  ['🥣','Завтрак','Каша с яблоком','Овсянка, молоко, яблоки'],
-  ['🍚','Обед','Рис с овощами','Рис, морковь, лук'],
-  ['🥪','Ужин','Бутерброды с сыром','Хлеб, сыр']
- ]},
- {day:'Пт',name:'Пятница',food:[
-  ['🍳','Завтрак','Омлет','Яйца, молоко'],
-  ['🍝','Обед','Макароны с томатами','Макароны, помидоры, лук'],
-  ['🍗','Ужин','Курица с картофелем','Курица, картофель']
- ]},
- {day:'Сб',name:'Суббота',food:[
-  ['🥞','Завтрак','Блинчики','Мука, молоко, яйца'],
-  ['🍲','Обед','Домашний суп','Картофель, морковь, курица'],
-  ['🥗','Ужин','Салат и тосты','Огурцы, помидоры, хлеб']
- ]},
- {day:'Вс',name:'Воскресенье',food:[
-  ['🍎','Завтрак','Овсянка с яблоком','Овсянка, молоко, яблоки'],
-  ['🍗','Обед','Запечённая курица','Курица, картофель'],
-  ['🍳','Ужин','Омлет с овощами','Яйца, помидоры, лук']
- ]}
-];
-
-const themes = {
- pink:{
-  bg:'#FFF4F8',paper:'#FFFFFF',accent:'#E88EAE',
-  accentDark:'#C65F89',dark:'#553D49',muted:'#9B8290',
-  soft:'#FCE4ED',soft2:'#F8EDF4',line:'#F2D5E1',
-  shadow:'#D8A5BC20'
- },
- lilac:{
-  bg:'#F8F4FF',paper:'#FFFFFF',accent:'#B6A0DF',
-  accentDark:'#8065B2',dark:'#493D58',muted:'#9385A3',
-  soft:'#EEE6FA',soft2:'#F5F0FC',line:'#E2D6F2',
-  shadow:'#9E88C420'
- },
- peach:{
-  bg:'#FFF5F0',paper:'#FFFFFF',accent:'#F0AE94',
-  accentDark:'#C5795D',dark:'#584239',muted:'#9B8479',
-  soft:'#FCE7DE',soft2:'#FFF1E9',line:'#F0D7CA',
-  shadow:'#D6A18C20'
+const days=["Понедельник","Вторник","Среда","Четверг","Пятница","Суббота","Воскресенье"];
+const defaults={budget:3500,people:2,preference:"all",theme:"pink",menu:[],shopping:[],pantry:[],checked:[]};
+let data;
+try{data={...defaults,...JSON.parse(localStorage.getItem("lk-data")||"{}")}}catch(e){data={...defaults}}
+function save(){try{localStorage.setItem("lk-data",JSON.stringify(data))}catch(e){alert("Не удалось сохранить данные браузера.")}renderAll()}
+function money(n){return Math.round(Number(n)||0).toLocaleString("ru-RU")+" ₽"}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function showPage(id){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("hidden",p.id!==id));document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));window.scrollTo(0,0)}
+function setTheme(t){data.theme=t;document.body.className=t==="pink"?"":t;save()}
+function saveBudget(v){data.budget=Math.max(0,Number(v)||0);save()}
+function newQuote(){const q=["Маленькие шаги тоже ведут к цели ♡","Уют начинается с простых вещей 🌷","Не обязательно делать всё сразу.","Планируй с заботой о себе ✨","Твой дом — твои правила 💗"];document.getElementById("quote").textContent=q[Math.floor(Math.random()*q.length)]}
+function getRecipe(id){return recipes.find(r=>r.id===Number(id))}
+function recipeCost(r){return r.cost*(Number(data.people)||1)}
+function autoMenu(){
+ data.budget=Number(document.getElementById("budget").value)||data.budget;
+ data.people=Number(document.getElementById("people").value)||2;
+ data.preference=document.getElementById("preference").value;
+ let pool=recipes.filter(r=>data.preference==="all"||data.preference==="budget"?true:data.preference==="simple"?(r.cost<=75||r.kind==="simple"):data.preference==="vegetarian"?r.kind==="vegetarian":r.kind==="chicken");
+ if(data.preference==="budget")pool.sort((a,b)=>a.cost-b.cost);
+ const chosen=[];
+ for(let d=0;d<7;d++){
+  const meals=[];
+  for(const cat of ["breakfast","lunch","dinner"]){
+   let candidates=pool.filter(r=>r.cat===cat);
+   if(!candidates.length)candidates=recipes.filter(r=>r.cat===cat);
+   let r=candidates[(d*3+["breakfast","lunch","dinner"].indexOf(cat))%candidates.length];
+   meals.push({recipeId:r.id,cat});
+  }
+  chosen.push({day:d,meals});
  }
-};
-
-let state = {
- budget:3500,
- selectedDay:0,
- shopping:[],
- pantry:[],
- theme:'pink',
- quote:'',
- lastQuote:''
-};
-
-try {
-  const saved=JSON.parse(localStorage.getItem(KEY)||'null');
-  if(saved && typeof saved==='object'){
-    state={...state,...saved};
-  }
-} catch(e) {}
-
-if(!Array.isArray(state.shopping)) state.shopping=[];
-if(!Array.isArray(state.pantry)) state.pantry=[];
-if(!Number.isFinite(Number(state.budget)) || Number(state.budget)<0)
-  state.budget=3500;
-state.selectedDay=Math.max(0,Math.min(6,Number(state.selectedDay)||0));
-
-function persist(){
-  try {
-    localStorage.setItem(KEY,JSON.stringify(state));
-  } catch(e) {
-    alert('Не удалось сохранить данные. Проверь свободное место и настройки браузера.');
-  }
+ data.menu=chosen;
+ save();
 }
-
-function money(n){
-  return Number(n||0).toLocaleString('ru-RU')+' ₽';
+function clearMenu(){if(!confirm("Очистить всё меню на неделю?"))return;data.menu=[];save()}
+function addToMenu(id){
+ if(!data.menu.length)data.menu=days.map((_,day)=>({day,meals:[]}));
+ const day=Number(prompt("На какой день добавить блюдо? Введи число от 1 до 7", "1"));
+ if(!Number.isInteger(day)||day<1||day>7)return;
+ const r=getRecipe(id);if(!r)return;
+ data.menu[day-1].meals.push({recipeId:r.id,cat:r.cat});
+ save();
 }
-
-function escapeHTML(value){
-  return String(value).replace(/[&<>"']/g,c=>({
-    '&':'&amp;',
-    '<':'&lt;',
-    '>':'&gt;',
-    '"':'&quot;',
-    "'":'&#39;'
-  })[c]);
+function renderRecipes(){
+ const cat=document.getElementById("category").value,search=document.getElementById("recipeSearch").value.toLowerCase();
+ const list=recipes.filter(r=>(cat==="all"||r.cat===cat)&&r.name.toLowerCase().includes(search));
+ document.getElementById("recipes").innerHTML=list.map(r=>`<div class="meal"><div class="meal-title">${esc(r.name)} <span class="pill">${money(r.cost)}/чел.</span></div><p class="muted">${esc(r.steps)}</p><button onclick="addToMenu(${r.id})">＋ В меню</button></div>`).join("")||'<div class="empty">Ничего не найдено 🌸</div>';
 }
-
-function makeId(){
-  return Date.now().toString(36)+'-'+
-    Math.random().toString(36).slice(2,10);
-}
-
-function showTab(id){
-  document.querySelectorAll('.section').forEach(section=>{
-    section.classList.toggle('active',section.id===id);
-  });
-  document.querySelectorAll('.navbtn').forEach(button=>{
-    button.classList.toggle('active',button.dataset.tab===id);
-  });
-  if(id==='shopping') renderShopping();
-  if(id==='pantry') renderPantry();
-  window.scrollTo(0,0);
-}
-
-function chooseQuote(){
-  let available=quotes.filter(q=>q!==state.lastQuote);
-  if(!available.length) available=quotes;
-  const q=available[Math.floor(Math.random()*available.length)];
-  state.lastQuote=q;
-  state.quote=q;
-  document.getElementById('quoteText').textContent=q;
-  persist();
-}
-
-function saveBudget(){
-  const input=document.getElementById('budgetInput');
-  const n=Number(input.value);
-  if(input.value.trim()===''||!Number.isFinite(n)||n<0){
-    alert('Введи корректную сумму бюджета.');
-    return;
-  }
-  state.budget=n;
-  persist();
-  renderHome();
-  document.getElementById('budgetMessage').textContent=
-    'Сохранено: '+money(n)+' на двоих за неделю ♡';
-}
-
-function renderHome(){
-  document.getElementById('homeBudget').textContent=money(state.budget);
-  document.getElementById('budgetInput').value=state.budget;
-  const count=state.shopping.filter(p=>!p.done).length;
-  document.getElementById('homeCount').textContent=count+' продуктов';
-  renderDays();
-  renderMenu();
-}
-
-function renderDays(){
-  document.getElementById('days').innerHTML=meals.map((m,i)=>
-    `<button class="day ${i===state.selectedDay?'active':''}"
-      onclick="selectDay(${i})">${m.day}<br>${i+1}</button>`
-  ).join('');
-}
-
-function selectDay(i){
-  state.selectedDay=i;
-  persist();
-  renderDays();
-  renderMenu();
-}
-
 function renderMenu(){
-  const m=meals[state.selectedDay];
-  document.getElementById('dayMenu').innerHTML=
-    `<h3>${m.name} 🌷</h3>`+
-    m.food.map((f,i)=>`
-      <div class="meal">
-        <div class="row">
-          <span class="emoji">${f[0]}</span>
-          <div class="grow">
-            <div class="muted">${f[1]}</div>
-            <strong>${f[2]}</strong>
-          </div>
-          <button class="btn light small"
-            onclick="addMeal(${state.selectedDay},${i})">+ 🛒</button>
-        </div>
-        <p>Порции на двоих</p>
-        <div class="ingredients">✂ ${f[3]}</div>
-      </div>`
-    ).join('');
+ const box=document.getElementById("weeklyMenu");
+ if(!data.menu.length){box.innerHTML='<div class="empty">Здесь пока пусто. Подбери меню автоматически или добавь блюда вручную 🌷</div>';document.getElementById("menuTotal").textContent="";return}
+ let total=0;
+ box.innerHTML=data.menu.map((d,i)=>{
+ const meals=(d.meals||[]).map((m,j)=>{const r=getRecipe(m.recipeId);if(!r)return "";total+=recipeCost(r);return `<div class="meal"><span class="meal-title">${esc(r.name)}</span> <span class="muted">— ${money(recipeCost(r))}</span><p class="muted">${esc(r.steps)}</p><button class="secondary" onclick="removeMeal(${i},${j})">Убрать</button></div>`}).join("");
+ return `<div class="daytitle">${days[d.day]||days[i]}</div>${meals||'<p class="muted">Нет блюд</p>'}<button class="secondary" onclick="addDayMeal(${i})">＋ Добавить блюдо</button>`;
+ }).join("");
+ document.getElementById("menuTotal").textContent="Ориентировочная сумма всех блюд: "+money(total)+" (цены примерные)";
 }
-
-function addMeal(day,index){
-  const ingredients=meals[day].food[index][3].split(', ');
-  let added=0;
-  ingredients.forEach(name=>{
-    const exists=state.shopping.some(p=>
-      p.name.toLowerCase()===name.toLowerCase()
-    );
-    if(!exists){
-      state.shopping.push({
-        id:makeId(),name,price:0,done:false
-      });
-      added++;
-    }
-  });
-  persist();
-  renderHome();
-  if(document.getElementById('shopping').classList.contains('active'))
-    renderShopping();
-  alert(added
-    ?'Ингредиенты добавлены в список покупок! 🧺'
-    :'Все эти продукты уже есть в списке ♡');
+function addDayMeal(i){const id=Number(prompt("Введи номер блюда:\n"+recipes.map(r=>r.id+". "+r.name).join("\n")));if(!getRecipe(id))return;data.menu[i].meals.push({recipeId:id,cat:getRecipe(id).cat});save()}
+function removeMeal(i,j){data.menu[i].meals.splice(j,1);save()}
+function makeShopping(){
+ const map={};
+ data.menu.forEach(d=>(d.meals||[]).forEach(m=>{const r=getRecipe(m.recipeId);if(!r)return;r.ingredients.forEach(([name,qty])=>{if(!map[name])map[name]={name,qty:0,price:0,quantity:""};map[name].qty+=qty*(Number(data.people)||1)})}));
+ const existing=new Map(data.shopping.map(x=>[x.name.toLowerCase(),x]));
+ data.shopping=Object.values(map).map(x=>{const old=existing.get(x.name.toLowerCase());return {...x,price:old?old.price:0,quantity:old?old.quantity:(x.qty+" ед."),checked:old?old.checked:false}});
+ save();showPage("shopping");
 }
-
 function addProduct(){
-  const input=document.getElementById('newProduct');
-  const priceInput=document.getElementById('newPrice');
-  const name=input.value.trim();
-  const priceText=priceInput.value.trim();
-  const price=priceText===''?0:Number(priceText);
-
-  if(!name){
-    alert('Сначала введи название продукта.');
-    input.focus();
-    return;
-  }
-  if(!Number.isFinite(price)||price<0){
-    alert('Проверь указанную цену.');
-    return;
-  }
-
-  state.shopping.push({id:makeId(),name,price,done:false});
-  input.value='';
-  priceInput.value='';
-  persist();
-  renderShopping();
-  renderHome();
+ const name=document.getElementById("newProduct").value.trim();if(!name){alert("Введи название продукта.");return}
+ data.shopping.push({name,quantity:document.getElementById("newQty").value.trim()||"1 шт.",price:Math.max(0,Number(document.getElementById("newPrice").value)||0),checked:false});
+ document.getElementById("newProduct").value="";document.getElementById("newQty").value="";document.getElementById("newPrice").value="";save();
 }
-
-function toggleProduct(id,checked){
-  const p=state.shopping.find(p=>p.id===id);
-  if(p) p.done=checked;
-  persist();
-  renderShopping();
-  renderHome();
-}
-
-function updatePrice(id,value){
-  const p=state.shopping.find(p=>p.id===id);
-  if(!p) return;
-  if(value.trim()===''){
-    p.price=0;
-  } else {
-    const price=Number(value);
-    if(!Number.isFinite(price)||price<0){
-      alert('Введи корректную цену.');
-      renderShopping();
-      return;
-    }
-    p.price=price;
-  }
-  persist();
-  renderShopping();
-}
-
-function removeProduct(id){
-  state.shopping=state.shopping.filter(p=>p.id!==id);
-  persist();
-  renderShopping();
-  renderHome();
-}
-
-function clearChecked(){
-  state.shopping=state.shopping.filter(p=>!p.done);
-  persist();
-  renderShopping();
-  renderHome();
-}
-
+function toggleItem(i,v){data.shopping[i].checked=v;save()}
+function editPrice(i,v){data.shopping[i].price=Math.max(0,Number(v)||0);save()}
+function deleteProduct(i){data.shopping.splice(i,1);save()}
+function clearShopping(){if(confirm("Очистить список покупок?")){data.shopping=[];save()}}
 function renderShopping(){
-  const list=document.getElementById('shoppingList');
-  const total=state.shopping.reduce((sum,p)=>
-    sum+Number(p.price||0),0);
-  const bought=state.shopping.filter(p=>p.done).length;
-  const remaining=state.shopping.filter(p=>!p.done).reduce((sum,p)=>
-    sum+Number(p.price||0),0);
-
-  document.getElementById('shoppingSummary').textContent=
-    `Куплено: ${bought} из ${state.shopping.length}. `+
-    `Сумма всех цен: ${money(total)}. `+
-    `Осталось по указанным ценам: ${money(remaining)}. `+
-    `Бюджет: ${money(state.budget)}.`;
-
-  if(!state.shopping.length){
-    list.innerHTML='<div class="empty">🧺<br>Корзинка пока пустая.<br>Добавь продукты из меню или вручную ♡</div>';
-    return;
-  }
-
-  list.innerHTML=state.shopping.map(p=>`
-    <div class="item ${p.done?'done':''}">
-      <input type="checkbox" ${p.done?'checked':''}
-        aria-label="Отметить покупку"
-        onchange="toggleProduct('${p.id}',this.checked)">
-      <label>${escapeHTML(p.name)}</label>
-      <input class="field price" aria-label="Цена продукта"
-        type="number" min="0" step="1"
-        value="${Number(p.price||0)||''}" placeholder="Цена ₽"
-        onchange="updatePrice('${p.id}',this.value)">
-      <button class="btn light small" aria-label="Удалить продукт"
-        onclick="removeProduct('${p.id}')">×</button>
-    </div>
-  `).join('');
+ const list=document.getElementById("shoppingList");
+ list.innerHTML=data.shopping.map((x,i)=>`<div class="item"><input type="checkbox" ${x.checked?"checked":""} onchange="toggleItem(${i},this.checked)"><div class="grow ${x.checked?"checkdone":""}"><strong>${esc(x.name)}</strong><small>${esc(x.quantity||"")}</small></div><div style="width:86px"><input aria-label="Цена" type="number" min="0" value="${Number(x.price)||0}" onchange="editPrice(${i},this.value)" style="padding:7px;margin:0"></div><button class="danger" onclick="deleteProduct(${i})">×</button></div>`).join("")||'<div class="empty">Список пока пуст 💗</div>';
+ const total=data.shopping.reduce((s,x)=>s+(Number(x.price)||0),0);
+ document.getElementById("shoppingTotal").textContent=money(total);
+ document.getElementById("remaining").textContent=data.shopping.filter(x=>!x.checked).length;
 }
-
-function addPantry(){
-  const input=document.getElementById('pantryInput');
-  const name=input.value.trim();
-  if(!name) return;
-
-  state.pantry.push({id:makeId(),name});
-  input.value='';
-  persist();
-  renderPantry();
+function addPantry(){const name=document.getElementById("pantryName").value.trim();if(!name){alert("Введи название продукта.");return}data.pantry.push({name,quantity:document.getElementById("pantryQty").value.trim()||"1 шт."});document.getElementById("pantryName").value="";document.getElementById("pantryQty").value="";save()}
+function deletePantry(i){data.pantry.splice(i,1);save()}
+function renderPantry(){document.getElementById("pantryList").innerHTML=data.pantry.map((x,i)=>`<div class="item"><div class="grow"><strong>${esc(x.name)}</strong><small>${esc(x.quantity)}</small></div><button class="danger" onclick="deletePantry(${i})">Удалить</button></div>`).join("")||'<div class="empty">Кладовая пока пустая 🥫</div>'}
+function exportData(){const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="legkaya-korzinka-backup.json";a.click();URL.revokeObjectURL(url)}
+function importData(){const f=document.getElementById("importFile").files[0];if(!f){alert("Сначала выбери файл резервной копии.");return}const reader=new FileReader();reader.onload=()=>{try{const d=JSON.parse(reader.result);if(!d||!Array.isArray(d.shopping)||!Array.isArray(d.pantry)||!Array.isArray(d.menu))throw Error();data={...defaults,...d};save();alert("Копия восстановлена!")}catch(e){alert("Не удалось прочитать копию. Выбери файл, созданный этим приложением.")}};reader.readAsText(f)}
+function renderAll(){
+ document.body.className=data.theme==="pink"?"":data.theme;
+ document.getElementById("budget").value=data.budget;
+ document.getElementById("settingsBudget").value=data.budget;
+ document.getElementById("people").value=data.people;
+ document.getElementById("preference").value=data.preference;
+ document.getElementById("theme").value=data.theme;
+ document.getElementById("homeBudget").textContent=money(data.budget);
+ document.getElementById("homeItems").textContent=data.shopping.filter(x=>!x.checked).length;
+ renderRecipes();renderMenu();renderShopping();renderPantry();
 }
-
-function removePantry(id){
-  state.pantry=state.pantry.filter(p=>p.id!==id);
-  persist();
-  renderPantry();
-}
-
-function renderPantry(){
-  const list=document.getElementById('pantryList');
-  if(!state.pantry.length){
-    list.innerHTML='<div class="empty">🏡<br>Кладовая пока пустая.<br>Добавь то, что уже есть дома ♡</div>';
-    return;
-  }
-  list.innerHTML=state.pantry.map(p=>`
-    <div class="item">
-      <span>🌿</span>
-      <label>${escapeHTML(p.name)}</label>
-      <button class="btn light small"
-        aria-label="Удалить продукт из кладовой"
-        onclick="removePantry('${p.id}')">×</button>
-    </div>
-  `).join('');
-}
-
-function setTheme(name){
-  const theme=themes[name];
-  if(!theme) return;
-
-  const root=document.documentElement;
-  const vars={
-    '--bg':theme.bg,
-    '--paper':theme.paper,
-    '--accent':theme.accent,
-    '--accent-dark':theme.accentDark,
-    '--dark':theme.dark,
-    '--muted':theme.muted,
-    '--soft':theme.soft,
-    '--soft2':theme.soft2,
-    '--line':theme.line,
-    '--shadow':theme.shadow
-  };
-
-  Object.entries(vars).forEach(([key,value])=>
-    root.style.setProperty(key,value)
-  );
-
-  state.theme=name;
-  persist();
-
-  document.querySelectorAll('.theme-choice').forEach(button=>{
-    button.classList.toggle('selected',button.dataset.theme===name);
-  });
-}
-
-function resetLists(){
-  if(!confirm('Удалить все покупки и продукты из кладовой?'))return;
-  state.shopping=[];
-  state.pantry=[];
-  persist();
-  renderShopping();
-  renderPantry();
-  renderHome();
-}
-
-document.getElementById('newProduct').addEventListener('keydown',e=>{
-  if(e.key==='Enter') addProduct();
-});
-document.getElementById('pantryInput').addEventListener('keydown',e=>{
-  if(e.key==='Enter') addPantry();
-});
-
-setTheme(themes[state.theme]?state.theme:'pink');
-chooseQuote();
-renderHome();
-renderShopping();
-renderPantry();
+renderAll();
 </script>
 </body>
 </html>
