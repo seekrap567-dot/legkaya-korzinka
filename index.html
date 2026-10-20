@@ -283,6 +283,14 @@ function renderAll(){
  document.getElementById("homeItems").textContent=data.shopping.filter(x=>!x.checked).length;
  renderRecipes();renderMenu();renderShopping();renderPantry();
 }
+function randomRecipe() {
+    if (typeof data !== 'undefined' && data.recipes && data.recipes.length > 0) {
+        const randomItem = data.recipes[Math.floor(Math.random() * data.recipes.length)];
+        alert("🎲 Твой случайный рецепт: " + (randomItem.name || randomItem.title || randomItem));
+    } else {
+        alert("Рецепты пока пусты или не найдены.");
+    }
+}  
 renderAll();
 </script>
 <script>
