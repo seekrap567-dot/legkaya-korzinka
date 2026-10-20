@@ -282,15 +282,16 @@ function renderAll(){
  document.getElementById("theme").value=data.theme;
  document.getElementById("homeBudget").textContent=money(data.budget);
  document.getElementById("homeItems").textContent=data.shopping.filter(x=>!x.checked).length;
- renderRecipes();renderMenu();renderShopping();renderPantry();
-}
+ renderRecipes();renderMenu();renderShopping();renderPantry();}
 function randomRecipe() {
     if (typeof recipes !== 'undefined' && recipes.length > 0) {
         const randomItem = recipes[Math.floor(Math.random() * recipes.length)];
-        alert("🎲 Твой случайный рецепт: " + (randomItem.name || randomItem.title || randomItem));
+        alert("🎲 Твой случайный рецепт: " + randomItem.name);
     } else {
-        alert("Рецепты пока пусты или не найдены.");
+        alert("Ошибка: список рецептов пуст.");
     }
+  }
+
 }  
 renderAll();
 </script>
