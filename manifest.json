@@ -1,0 +1,12 @@
+
+{
+  "name": "Лёгкая корзинка",
+  "short_name": "Корзинка",
+  "description": "Уютный кулинарный помощник",
+  "lang": "ru",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fffaf7",
+  "theme_color": "#fff0f5"
+}
