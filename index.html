@@ -285,8 +285,8 @@ function renderAll(){
  renderRecipes();renderMenu();renderShopping();renderPantry();
 }
 function randomRecipe() {
-    if (typeof data !== 'undefined' && data.recipes && data.recipes.length > 0) {
-        const randomItem = data.recipes[Math.floor(Math.random() * data.recipes.length)];
+    if (typeof recipes !== 'undefined' && recipes.length > 0) {
+        const randomItem = recipes[Math.floor(Math.random() * recipes.length)];
         alert("🎲 Твой случайный рецепт: " + (randomItem.name || randomItem.title || randomItem));
     } else {
         alert("Рецепты пока пусты или не найдены.");
