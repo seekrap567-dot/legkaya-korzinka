@@ -1,304 +1,131 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<link rel="manifest" href="manifest.json">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#fff1f5">
-<title>Лёгкая корзинка</title>
-<style>
-:root{--bg:#fff7fa;--card:#fff;--pink:#ed9ab7;--dark:#a94e76;--text:#553b48;--soft:#ffe7ef;--border:#f3d5e0}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font:15px Arial,sans-serif}
-body.lilac{--bg:#faf6ff;--pink:#c5a5e8;--dark:#7952a0;--soft:#eee3ff;--border:#e2d2f4}
-body.peach{--bg:#fff8f1;--pink:#f4b58e;--dark:#b66b43;--soft:#ffeadc;--border:#f4d9c6}
-header{padding:23px 18px 17px;background:linear-gradient(135deg,var(--soft),var(--bg));border-radius:0 0 26px 26px}
-h1{font-size:25px;margin:0 0 6px}
-header p{margin:0;opacity:.8}
-main{padding:15px;max-width:700px;margin:auto;padding-bottom:95px}
-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:9px 2px calc(9px + env(safe-area-inset-bottom));border-top:1px solid var(--border);z-index:5}
-nav button{background:none;color:var(--text);padding:7px 2px;font-size:11px;flex:1;border:0}
-nav button.active{color:var(--dark);font-weight:bold}
-nav span{display:block;font-size:20px;margin-bottom:3px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:19px;padding:15px;margin:12px 0;box-shadow:0 3px 12px #9b57710a}
-h2{font-size:19px;margin:3px 0 12px}
-h3{font-size:16px;margin:5px 0 8px}
-p{line-height:1.45}
-button,.btn{border:0;border-radius:12px;padding:11px 13px;background:var(--pink);color:#fff;font-weight:bold;cursor:pointer;font-size:14px}
-button.secondary{background:var(--soft);color:var(--dark)}
-button.danger{background:#f8e2e7;color:#9e3e5b}
-button:disabled{opacity:.5}
-input,select,textarea{width:100%;border:1px solid var(--border);border-radius:11px;padding:12px;background:#fff;color:var(--text);font:inherit;margin:5px 0 10px}
-label{font-size:13px;font-weight:bold}
-.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.row>*{flex:1}
-.muted{opacity:.7;font-size:13px}
-.big{font-size:25px;font-weight:bold;color:var(--dark)}
-.pill{display:inline-block;background:var(--soft);color:var(--dark);border-radius:20px;padding:5px 9px;font-size:12px;margin:3px}
-.meal{padding:11px 0;border-bottom:1px dashed var(--border)}
-.meal:last-child{border-bottom:0}
-.meal-title{font-weight:bold}
-.item{display:flex;align-items:center;gap:9px;padding:10px 0;border-bottom:1px solid var(--border)}
-.item input[type=checkbox]{width:20px;height:20px;margin:0;accent-color:var(--pink)}
-.item .grow{flex:1}
-.item small{display:block;opacity:.7;margin-top:4px}
-.item button{padding:7px 10px}
-.checkdone{text-decoration:line-through;opacity:.55}
-.empty{text-align:center;padding:25px 10px;opacity:.7}
-.hidden{display:none!important}
-.daytitle{font-weight:bold;color:var(--dark);margin-top:14px}
-footer{text-align:center;font-size:12px;opacity:.6;padding:20px}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лёгкая корзинка</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#fff1f5">
+    <style>
+        :root { --bg: #fff7fa; --card: #ffffff; --pink: #f4b58e; --text: #4a4a4a; }
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { margin: 0; background: var(--bg); color: var(--text); padding-bottom: 70px; }
+        header { padding: 20px; text-align: center; }
+        h1 { font-size: 24px; margin: 0; color: var(--pink); }
+        h2 { font-size: 18px; margin-top: 0; color: var(--pink); }
+        .page { display: none; padding: 15px; }
+        .page.active { display: block; }
+        .card { background: var(--card); border-radius: 15px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        button { background: var(--pink); color: white; border: none; padding: 10px 15px; border-radius: 8px; font-size: 14px; cursor: pointer; margin: 5px 0; width: 100%; font-weight: bold; }
+        button.secondary { background: #fce4ec; color: #d81b60; }
+        nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); }
+        nav button { background: none; color: #888; width: auto; padding: 5px; font-size: 12px; }
+        nav button.active { color: var(--pink); font-weight: bold; }
+        input, select { width: 100%; padding: 10px; margin: 5px 0 15px 0; border: 1px solid #ddd; border-radius: 8px; }
+    </style>
 </head>
 <body>
-<header>
-  <h1>🧺 Лёгкая корзинка</h1>
-  <p>Планируем вкусно, покупаем разумно ♡</p>
-</header>
-<main>
-<section id="home" class="page">
- <div class="card">
-  <span class="pill">♡ Твой помощник</span>
-  <h2>Привет, хозяюшка!</h2>
-  <p>Немного планирования — и покупки становятся проще.</p>
-  <div class="row">
-   <div><div class="muted">Бюджет на неделю</div><div class="big" id="homeBudget">0 ₽</div></div>
-   <div><div class="muted">В списке покупок</div><div class="big" id="homeItems">0</div></div>
-  </div>
-  <button onclick="showPage('menu')">Составить меню ✿</button>
- </div>
- <div class="card">
-  <h2>🌷 Быстрый старт</h2>
-  <button class="secondary" onclick="randomRecipe()">🎲 Удиви меня!</button>
-<button class="secondary" onclick="showPage('shopping')">🛒 Мои покупки</button>
-<button class="secondary" onclick="showPage('pantry')">🥫 Моя кладовая</button>
-<button class="secondary" onclick="showPage('settings')">💗 Настройки</button>
- </div>
- <div class="card">
-  <h2>Маленькое напоминание</h2>
-  <p id="quote">Планируй не идеально, а так, как удобно тебе ♡</p>
-  <button class="secondary" onclick="newQuote()">Другая мысль ✨</button>
- </div>
-</section>
 
-<section id="menu" class="page hidden">
- <div class="card">
-  <h2>🍓 Меню на неделю</h2>
-  <p class="muted">Можно составить меню автоматически или выбрать блюда самостоятельно.</p>
-  <label>Бюджет на неделю, ₽</label>
-  <input id="budget" type="number" min="0" placeholder="Например, 3500">
-  <label>Сколько человек?</label>
-  <select id="people"><option value="1">1 человек</option><option value="2" selected>2 человека</option><option value="3">3 человека</option><option value="4">4 человека</option><option value="5">5 человек</option><option value="6">6 человек</option></select>
-  <label>Предпочтения</label>
-  <select id="preference">
-   <option value="all">Любые блюда</option>
-   <option value="simple">Простые и быстрые</option>
-   <option value="vegetarian">Без мяса и рыбы</option>
-   <option value="chicken">С курицей</option>
-   <option value="budget">Самые экономные</option>
-  </select>
-  <button onclick="autoMenu()">✨ Подобрать меню</button>
-  <button class="secondary" onclick="clearMenu()">Очистить меню</button>
- </div>
- <div class="card">
-  <h2>🥗 Выбрать блюда самой</h2>
-  <label>Категория</label>
-  <select id="category" onchange="renderRecipes()">
-   <option value="all">Все блюда</option><option value="breakfast">Завтраки</option><option value="lunch">Обеды</option><option value="dinner">Ужины</option>
-  </select>
-  <label>Поиск блюда</label>
-  <input id="recipeSearch" placeholder="Например, суп" oninput="renderRecipes()">
-  <div id="recipes"></div>
- </div>
- <div class="card">
-  <h2>📅 Твоё меню</h2>
-  <div id="weeklyMenu"></div>
-  <div class="row"><button onclick="makeShopping()">🛒 Создать список покупок</button><button class="secondary" onclick="clearMenu()">Сбросить</button></div>
-  <p class="muted" id="menuTotal"></p>
- </div>
-</section>
+    <header>
+        <h1>🧺 Лёгкая корзинка</h1>
+        <p style="margin: 5px 0 0 0; font-size: 12px; opacity: 0.7;">Планируем вкусно, покупаем разумно ♡</p>
+    </header>
 
-<section id="shopping" class="page hidden">
- <div class="card">
-  <h2>🛒 Список покупок</h2>
-  <p class="muted">Отмечай продукты по мере покупки. Цены можно менять.</p>
-  <div class="row"><div><div class="muted">Сумма списка</div><div class="big" id="shoppingTotal">0 ₽</div></div><div><div class="muted">Осталось купить</div><div class="big" id="remaining">0</div></div></div>
-  <label>Название продукта</label><input id="newProduct" placeholder="Например, молоко">
-  <div class="row"><div><label>Количество</label><input id="newQty" placeholder="1 упаковка"></div><div><label>Цена, ₽</label><input id="newPrice" type="number" min="0" placeholder="100"></div></div>
-  <button onclick="addProduct()">＋ Добавить продукт</button>
-  <button class="secondary" onclick="makeShopping()">Обновить из меню</button>
-  <div id="shoppingList"></div>
-  <button class="danger" onclick="clearShopping()">Очистить список</button>
- </div>
-</section>
+    <main>
+        <!-- Главная -->
+        <section id="home" class="page active">
+            <div class="card">
+                <h2>Привет, хозяюшка!</h2>
+                <p>Немного планирования — и покупки становятся проще.</p>
+                <button onclick="randomRecipe()">🎲 Удиви меня!</button>
+            </div>
+        </section>
 
-<section id="pantry" class="page hidden">
- <div class="card">
-  <h2>🥫 Моя кладовая</h2>
-  <p class="muted">Записывай продукты, которые уже есть дома.</p>
-  <label>Продукт</label><input id="pantryName" placeholder="Например, рис">
-  <label>Количество</label><input id="pantryQty" placeholder="1 пачка">
-  <button onclick="addPantry()">＋ Добавить в кладовую</button>
-  <div id="pantryList"></div>
- </div>
-</section>
+        <!-- Меню -->
+        <section id="menu" class="page">
+            <div class="card">
+                <h2>🍓 Меню на неделю</h2>
+                <p>Здесь мы выберем блюда.</p>
+                <button class="secondary" onclick="alert('Функция меню в разработке!')">Составить меню</button>
+            </div>
+        </section>
 
-<section id="settings" class="page hidden">
- <div class="card">
-  <h2>💗 Настройки</h2>
-  <label>Тема оформления</label>
-  <select id="theme" onchange="setTheme(this.value)"><option value="pink">Нежно-розовая</option><option value="lilac">Лавандовая</option><option value="peach">Персиковая</option></select>
-  <label>Бюджет на неделю, ₽</label><input id="settingsBudget" type="number" min="0" placeholder="3500" onchange="saveBudget(this.value)">
-  <p class="muted">Все данные хранятся в памяти браузера на этом устройстве. Очистка данных сайта может удалить сохранённые записи.</p>
-  <button class="secondary" onclick="exportData()">Сохранить резервную копию</button>
-  <label style="display:block;margin-top:16px">Восстановить копию</label>
-  <input id="importFile" type="file" accept=".json,application/json">
-  <button class="secondary" onclick="importData()">Восстановить данные</button>
- </div>
-</section>
-<footer>С любовью к уюту и разумным покупкам ♡</footer>
-</main>
+        <!-- Покупки -->
+        <section id="shopping" class="page">
+            <div class="card">
+                <h2>🛒 Покупки</h2>
+                <p>Список того, что нужно купить.</p>
+            </div>
+        </section>
 
-<nav>
- <button class="active" data-page="home" onclick="showPage('home')"><span>🏡</span>Главная</button>
- <button data-page="menu" onclick="showPage('menu')"><span>🍓</span>Меню</button>
- <button data-page="shopping" onclick="showPage('shopping')"><span>🛒</span>Покупки</button>
- <button data-page="pantry" onclick="showPage('pantry')"><span>🥫</span>Кладовая</button>
- <button data-page="settings" onclick="showPage('settings')"><span>⚙️</span>Настройки</button>
-</nav>
+        <!-- Кладовая -->
+        <section id="pantry" class="page">
+            <div class="card">
+                <h2>🥫 Кладовая</h2>
+                <p>Что уже есть дома.</p>
+            </div>
+        </section>
 
-<script>
-const recipes=[
-{id:1,name:"Овсяная каша",cat:"breakfast",cost:35,kind:"vegetarian",ingredients:[["овсяные хлопья",60],["молоко",150],["сахар",5]],steps:"Свари хлопья в молоке или воде до мягкости."},
-{id:2,name:"Яичница с хлебом",cat:"breakfast",cost:55,kind:"simple",ingredients:[["яйца",2],["хлеб",2]],steps:"Приготовь яйца на сковороде и подай с хлебом."},
-{id:3,name:"Блины",cat:"breakfast",cost:65,kind:"vegetarian",ingredients:[["мука",100],["молоко",150],["яйца",1]],steps:"Смешай ингредиенты и испеки тонкие блины."},
-{id:4,name:"Творог с бананом",cat:"breakfast",cost:70,kind:"vegetarian",ingredients:[["творог",150],["банан",1]],steps:"Нарежь банан и смешай с творогом."},
-{id:5,name:"Рис с курицей",cat:"lunch",cost:110,kind:"chicken",ingredients:[["рис",100],["курица",150],["морковь",1]],steps:"Обжарь курицу с морковью, добавь рис и воду, туши до готовности."},
-{id:6,name:"Суп с картофелем",cat:"lunch",cost:65,kind:"vegetarian",ingredients:[["картофель",2],["морковь",1],["лук",1]],steps:"Нарежь овощи и вари до мягкости."},
-{id:7,name:"Макароны с сыром",cat:"lunch",cost:75,kind:"vegetarian",ingredients:[["макароны",100],["сыр",30]],steps:"Отвари макароны и добавь тёртый сыр."},
-{id:8,name:"Гречка с курицей",cat:"dinner",cost:105,kind:"chicken",ingredients:[["гречка",100],["курица",150],["лук",1]],steps:"Отвари гречку. Курица с луком готовится отдельно на сковороде."},
-{id:9,name:"Картофель с овощами",cat:"dinner",cost:60,kind:"vegetarian",ingredients:[["картофель",3],["морковь",1],["лук",1]],steps:"Нарежь овощи, запеки или потуши до готовности."},
-{id:10,name:"Овощной салат",cat:"dinner",cost:55,kind:"vegetarian",ingredients:[["огурец",1],["помидор",1]],steps:"Нарежь овощи и заправь по вкусу."},
-{id:11,name:"Куриный суп",cat:"lunch",cost:95,kind:"chicken",ingredients:[["курица",100],["картофель",2],["морковь",1],["вермишель",30]],steps:"Отвари курицу, добавь овощи и вермишель."},
-{id:12,name:"Сэндвич с сыром",cat:"breakfast",cost:45,kind:"vegetarian",ingredients:[["хлеб",2],["сыр",30]],steps:"Положи сыр между ломтиками хлеба."},
-{id:13,name:"Тушёная капуста",cat:"dinner",cost:55,kind:"vegetarian",ingredients:[["капуста",200],["морковь",1],["лук",1]],steps:"Нашинкуй овощи и туши до мягкости."},
-{id:14,name:"Курица с картофелем",cat:"dinner",cost:120,kind:"chicken",ingredients:[["курица",150],["картофель",3]],steps:"Приправь и запеки курицу с картофелем."},
-{id:15,name:"Паста с томатами",cat:"lunch",cost:75,kind:"vegetarian",ingredients:[["макароны",100],["помидор",2]],steps:"Отвари макароны и прогрей с нарезанными томатами."}
-];
-const days=["Понедельник","Вторник","Среда","Четверг","Пятница","Суббота","Воскресенье"];
-const defaults={budget:3500,people:2,preference:"all",theme:"pink",menu:[],shopping:[],pantry:[],checked:[]};
-let data;
-try{data={...defaults,...JSON.parse(localStorage.getItem("lk-data")||"{}")}}catch(e){data={...defaults}}
-function save(){try{localStorage.setItem("lk-data",JSON.stringify(data))}catch(e){alert("Не удалось сохранить данные браузера.")}renderAll()}
-function money(n){return Math.round(Number(n)||0).toLocaleString("ru-RU")+" ₽"}
-function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function showPage(id){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("hidden",p.id!==id));document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));window.scrollTo(0,0)}
-function setTheme(t){data.theme=t;document.body.className=t==="pink"?"":t;save()}
-function saveBudget(v){data.budget=Math.max(0,Number(v)||0);save()}
-function newQuote(){const q=["Маленькие шаги тоже ведут к цели ♡","Уют начинается с простых вещей 🌷","Не обязательно делать всё сразу.","Планируй с заботой о себе ✨","Твой дом — твои правила 💗"];document.getElementById("quote").textContent=q[Math.floor(Math.random()*q.length)]}
-function getRecipe(id){return recipes.find(r=>r.id===Number(id))}
-function recipeCost(r){return r.cost*(Number(data.people)||1)}
-function autoMenu(){
- data.budget=Number(document.getElementById("budget").value)||data.budget;
- data.people=Number(document.getElementById("people").value)||2;
- data.preference=document.getElementById("preference").value;
- let pool=recipes.filter(r=>data.preference==="all"||data.preference==="budget"?true:data.preference==="simple"?(r.cost<=75||r.kind==="simple"):data.preference==="vegetarian"?r.kind==="vegetarian":r.kind==="chicken");
- if(data.preference==="budget")pool.sort((a,b)=>a.cost-b.cost);
- const chosen=[];
- for(let d=0;d<7;d++){
-  const meals=[];
-  for(const cat of ["breakfast","lunch","dinner"]){
-   let candidates=pool.filter(r=>r.cat===cat);
-   if(!candidates.length)candidates=recipes.filter(r=>r.cat===cat);
-   let r=candidates[(d*3+["breakfast","lunch","dinner"].indexOf(cat))%candidates.length];
-   meals.push({recipeId:r.id,cat});
-  }
-  chosen.push({day:d,meals});
- }
- data.menu=chosen;
- save();
-}
-function clearMenu(){if(!confirm("Очистить всё меню на неделю?"))return;data.menu=[];save()}
-function addToMenu(id){
- if(!data.menu.length)data.menu=days.map((_,day)=>({day,meals:[]}));
- const day=Number(prompt("На какой день добавить блюдо? Введи число от 1 до 7", "1"));
- if(!Number.isInteger(day)||day<1||day>7)return;
- const r=getRecipe(id);if(!r)return;
- data.menu[day-1].meals.push({recipeId:r.id,cat:r.cat});
- save();
-}
-function renderRecipes(){
- const cat=document.getElementById("category").value,search=document.getElementById("recipeSearch").value.toLowerCase();
- const list=recipes.filter(r=>(cat==="all"||r.cat===cat)&&r.name.toLowerCase().includes(search));
- document.getElementById("recipes").innerHTML=list.map(r=>`<div class="meal"><div class="meal-title">${esc(r.name)} <span class="pill">${money(r.cost)}/чел.</span></div><p class="muted">${esc(r.steps)}</p><button onclick="addToMenu(${r.id})">＋ В меню</button></div>`).join("")||'<div class="empty">Ничего не найдено 🌸</div>';
-}
-function renderMenu(){
- const box=document.getElementById("weeklyMenu");
- if(!data.menu.length){box.innerHTML='<div class="empty">Здесь пока пусто. Подбери меню автоматически или добавь блюда вручную 🌷</div>';document.getElementById("menuTotal").textContent="";return}
- let total=0;
- box.innerHTML=data.menu.map((d,i)=>{
- const meals=(d.meals||[]).map((m,j)=>{const r=getRecipe(m.recipeId);if(!r)return "";total+=recipeCost(r);return `<div class="meal"><span class="meal-title">${esc(r.name)}</span> <span class="muted">— ${money(recipeCost(r))}</span><p class="muted">${esc(r.steps)}</p><button class="secondary" onclick="removeMeal(${i},${j})">Убрать</button></div>`}).join("");
- return `<div class="daytitle">${days[d.day]||days[i]}</div>${meals||'<p class="muted">Нет блюд</p>'}<button class="secondary" onclick="addDayMeal(${i})">＋ Добавить блюдо</button>`;
- }).join("");
- document.getElementById("menuTotal").textContent="Ориентировочная сумма всех блюд: "+money(total)+" (цены примерные)";
-}
-function addDayMeal(i){const id=Number(prompt("Введи номер блюда:\n"+recipes.map(r=>r.id+". "+r.name).join("\n")));if(!getRecipe(id))return;data.menu[i].meals.push({recipeId:id,cat:getRecipe(id).cat});save()}
-function removeMeal(i,j){data.menu[i].meals.splice(j,1);save()}
-function makeShopping(){
- const map={};
- data.menu.forEach(d=>(d.meals||[]).forEach(m=>{const r=getRecipe(m.recipeId);if(!r)return;r.ingredients.forEach(([name,qty])=>{if(!map[name])map[name]={name,qty:0,price:0,quantity:""};map[name].qty+=qty*(Number(data.people)||1)})}));
- const existing=new Map(data.shopping.map(x=>[x.name.toLowerCase(),x]));
- data.shopping=Object.values(map).map(x=>{const old=existing.get(x.name.toLowerCase());return {...x,price:old?old.price:0,quantity:old?old.quantity:(x.qty+" ед."),checked:old?old.checked:false}});
- save();showPage("shopping");
-}
-function addProduct(){
- const name=document.getElementById("newProduct").value.trim();if(!name){alert("Введи название продукта.");return}
- data.shopping.push({name,quantity:document.getElementById("newQty").value.trim()||"1 шт.",price:Math.max(0,Number(document.getElementById("newPrice").value)||0),checked:false});
- document.getElementById("newProduct").value="";document.getElementById("newQty").value="";document.getElementById("newPrice").value="";save();
-}
-function toggleItem(i,v){data.shopping[i].checked=v;save()}
-function editPrice(i,v){data.shopping[i].price=Math.max(0,Number(v)||0);save()}
-function deleteProduct(i){data.shopping.splice(i,1);save()}
-function clearShopping(){if(confirm("Очистить список покупок?")){data.shopping=[];save()}}
-function renderShopping(){
- const list=document.getElementById("shoppingList");
- list.innerHTML=data.shopping.map((x,i)=>`<div class="item"><input type="checkbox" ${x.checked?"checked":""} onchange="toggleItem(${i},this.checked)"><div class="grow ${x.checked?"checkdone":""}"><strong>${esc(x.name)}</strong><small>${esc(x.quantity||"")}</small></div><div style="width:86px"><input aria-label="Цена" type="number" min="0" value="${Number(x.price)||0}" onchange="editPrice(${i},this.value)" style="padding:7px;margin:0"></div><button class="danger" onclick="deleteProduct(${i})">×</button></div>`).join("")||'<div class="empty">Список пока пуст 💗</div>';
- const total=data.shopping.reduce((s,x)=>s+(Number(x.price)||0),0);
- document.getElementById("shoppingTotal").textContent=money(total);
- document.getElementById("remaining").textContent=data.shopping.filter(x=>!x.checked).length;
-}
-function addPantry(){const name=document.getElementById("pantryName").value.trim();if(!name){alert("Введи название продукта.");return}data.pantry.push({name,quantity:document.getElementById("pantryQty").value.trim()||"1 шт."});document.getElementById("pantryName").value="";document.getElementById("pantryQty").value="";save()}
-function deletePantry(i){data.pantry.splice(i,1);save()}
-function renderPantry(){document.getElementById("pantryList").innerHTML=data.pantry.map((x,i)=>`<div class="item"><div class="grow"><strong>${esc(x.name)}</strong><small>${esc(x.quantity)}</small></div><button class="danger" onclick="deletePantry(${i})">Удалить</button></div>`).join("")||'<div class="empty">Кладовая пока пустая 🥫</div>'}
-function exportData(){const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="legkaya-korzinka-backup.json";a.click();URL.revokeObjectURL(url)}
-function importData(){const f=document.getElementById("importFile").files[0];if(!f){alert("Сначала выбери файл резервной копии.");return}const reader=new FileReader();reader.onload=()=>{try{const d=JSON.parse(reader.result);if(!d||!Array.isArray(d.shopping)||!Array.isArray(d.pantry)||!Array.isArray(d.menu))throw Error();data={...defaults,...d};save();alert("Копия восстановлена!")}catch(e){alert("Не удалось прочитать копию. Выбери файл, созданный этим приложением.")}};reader.readAsText(f)}
-function renderAll(){
- document.body.className=data.theme==="pink"?"":data.theme;
- document.getElementById("budget").value=data.budget;
- document.getElementById("settingsBudget").value=data.budget;
- document.getElementById("people").value=data.people;
- document.getElementById("preference").value=data.preference;
- document.getElementById("theme").value=data.theme;
- document.getElementById("homeBudget").textContent=money(data.budget);
- document.getElementById("homeItems").textContent=data.shopping.filter(x=>!x.checked).length;
- renderRecipes();renderMenu();renderShopping();renderPantry();}
-function randomRecipe() {
-    if (typeof recipes !== 'undefined' && recipes.length > 0) {
-        const randomItem = recipes[Math.floor(Math.random() * recipes.length)];
-        alert("🎲 Твой случайный рецепт: " + randomItem.name);
-    } else {
-        alert("Ошибка: список рецептов пуст.");
-    }
-  }
+        <!-- Настройки -->
+        <section id="settings" class="page">
+            <div class="card">
+                <h2>💗 Настройки</h2>
+                <button class="secondary" onclick="alert('Экспорт данных пока в разработке')">📤 Экспорт</button>
+                <button class="secondary" onclick="alert('Импорт данных пока в разработке')">📥 Импорт</button>
+            </div>
+        </section>
+    </main>
 
-}  
-renderAll();
-</script>
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
-  }
-</script> 
+    <!-- Навигация -->
+    <nav>
+        <button onclick="showPage('home', this)" class="active">🏠 Главная</button>
+        <button onclick="showPage('menu', this)">🍓 Меню</button>
+        <button onclick="showPage('shopping', this)">🛒 Покупки</button>
+        <button onclick="showPage('pantry', this)">🥫 Кладовая</button>
+        <button onclick="showPage('settings', this)">⚙️ Настройки</button>
+    </nav>
+
+    <script>
+        // --- Список рецептов ---
+        const recipes = [
+            { name: "Овсяная каша" },
+            { name: "Яичница с хлебом" },
+            { name: "Блины" },
+            { name: "Творог с бананом" },
+            { name: "Рис с курицей" },
+            { name: "Суп с картофелем" },
+            { name: "Макароны с сыром" },
+            { name: "Гречка с курицей" },
+            { name: "Картофель с овощами" },
+            { name: "Овощной салат" },
+            { name: "Куриный суп" },
+            { name: "Сэндвич с сыром" },
+            { name: "Тушёная капуста" },
+            { name: "Курица с картофелем" },
+            { name: "Паста с томатами" }
+        ];
+
+        // --- Кнопка "Удиви меня" ---
+        function randomRecipe() {
+            const randomItem = recipes[Math.floor(Math.random() * recipes.length)];
+            alert("🎲 Твой случайный рецепт: " + randomItem.name);
+        }
+
+        // --- Навигация ---
+        function showPage(pageId, btn) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            
+            if (btn) {
+                document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
+        }
+
+        // --- Офлайн режим ---
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
 </body>
 </html>
